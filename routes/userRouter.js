@@ -1,6 +1,7 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const userController = require("../controllers/userController");
+const adminGuard = require("../guard/adminGuard");
 const userRouter = express.Router();
 userRouter.use(bodyParser.json());
 
@@ -26,4 +27,6 @@ userRouter
   .get(userController.renderRegisterPage)
   .post(userController.register);
 
+userRouter.route('/list').get(adminGuard, userController.list);
+userRouter.route('/:id').get(adminGuard, userController.getById);
 module.exports = userRouter;

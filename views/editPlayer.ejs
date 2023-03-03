@@ -8,107 +8,168 @@
     </title>
 </head>
 
-<body>
+<body class="flex flex-col min-h-screen justify-evenly">
   <%- include('./header.ejs') %>
 
-    <div class="box">
+    <div class="container">
       <div class="heading">
-        <h1 class="text-xl font-bold text-black-500">Edit player</h1>
+        <h1 class="text-xl font-bold text-black-500">Player</h1>
       </div>
-      <div class="column">
-        <form method="post" class="flex flex-col gap-10">
-          <div class="max-w-xl">
-            <label for="email" class="block mb-2 text-sm font-medium text-gray-700">Name</label>
-            <div class="mt-1">
-              <input name="name" type="text" value="<%=player.name%>" placeholder="e.g USA" required
-                class="block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" />
-            </div>
-          </div>
-          <!-- ----- -->
-          <div class="max-w-xl">
-            <label class="text-base font-medium text-gray-900">Captain</label>
-
-            <div class="mt-2 space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-10">
-              <div class="flex items-center">
-                <% if (player.isCaptain==true) { %>
-                  <input id="email" name="isCaptain" type="radio" value="true" checked
-                    class="w-4 h-4 text-indigo-600 border-gray-300 focus:ring-indigo-500" />
-                  <% } %>
-                    <% if (player.isCaptain==false) { %>
-                      <input id="email" name="isCaptain" type="radio" value="true"
-                        class="w-4 h-4 text-indigo-600 border-gray-300 focus:ring-indigo-500" />
-                      <% } %>
-                        <label for="email" class="block ml-3 text-sm font-medium text-gray-700">yes</label>
-              </div>
-
-              <div class="flex items-center">
-                <% if (player.isCaptain==true) { %>
-                  <input id="sms" name="isCaptain" type="radio" value="false"
-                    class="w-4 h-4 text-indigo-600 border-gray-300 focus:ring-indigo-500" />
-                  <% } %>
-                    <% if (player.isCaptain==false) { %>
-                      <input id="sms" name="isCaptain" type="radio" value="false" checked
-                        class="w-4 h-4 text-indigo-600 border-gray-300 focus:ring-indigo-500" />
-                      <% } %>
-                        <label for="sms" class="block ml-3 text-sm font-medium text-gray-700">No</label>
+      <% if(isAuth && isAdmin) { %>
+        <div class="column">
+          <form method="post" class="flex flex-col gap-10">
+            <div class="max-w-xl">
+              <label for="email" class="block mb-2 text-sm font-medium text-gray-700">Name</label>
+              <div class="mt-1">
+                <input name="name" type="text" value="<%=player.name%>" placeholder="e.g USA" required
+                  class="block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" />
               </div>
             </div>
-          </div>
+            <!-- ----- -->
+            <div class="max-w-xl">
+              <label class="text-base font-medium text-gray-900">Captain</label>
 
-          <div class="max-w-xl">
-            <label for="club" class="block text-sm font-medium text-gray-700">Club</label>
-            <select name="club"
-              class="block w-full py-2 pl-3 pr-10 mt-1 text-base border-gray-300 rounded-md focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm">
-              <% clubs.forEach(club=> { %>
-                <option value="<%= club.name %>" <%=JSON.stringify(club.name)===JSON.stringify(player.club) ? 'selected'
-                  : '' %>><%= club.name %>
-                </option>
-                <% }) %>
-            </select>
-          </div>
+              <div class="mt-2 space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-10">
+                <div class="flex items-center">
+                  <% if (player.isCaptain==true) { %>
+                    <input id="email" name="isCaptain" type="radio" value="true" checked
+                      class="w-4 h-4 text-indigo-600 border-gray-300 focus:ring-indigo-500" />
+                    <% } %>
+                      <% if (player.isCaptain==false) { %>
+                        <input id="email" name="isCaptain" type="radio" value="true"
+                          class="w-4 h-4 text-indigo-600 border-gray-300 focus:ring-indigo-500" />
+                        <% } %>
+                          <label for="email" class="block ml-3 text-sm font-medium text-gray-700">yes</label>
+                </div>
 
-          <div class="max-w-xl">
-            <label for="position" class="block text-sm font-medium text-gray-700">Position</label>
-            <select name="position"
-              class="block w-full py-2 pl-3 pr-10 mt-1 text-base border-gray-300 rounded-md focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm">
-              <% positions.forEach(position=> { %>
-                <option value="<%= position.name %>" <%=JSON.stringify(position.name)===JSON.stringify(player.position)
-                  ? 'selected' : '' %>><%=position.name %>
-                </option>
-                <% }) %>
-            </select>
-          </div>
-
-          <div class="max-w-xl">
-            <label for="email" class="block mb-2 text-sm font-medium text-gray-700">Goals</label>
-            <div class="mt-1">
-              <input name="goals" type="number" value="<%= player.goals%>" placeholder="e.g. 100" required
-                class="block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" />
+                <div class="flex items-center">
+                  <% if (player.isCaptain==true) { %>
+                    <input id="sms" name="isCaptain" type="radio" value="false"
+                      class="w-4 h-4 text-indigo-600 border-gray-300 focus:ring-indigo-500" />
+                    <% } %>
+                      <% if (player.isCaptain==false) { %>
+                        <input id="sms" name="isCaptain" type="radio" value="false" checked
+                          class="w-4 h-4 text-indigo-600 border-gray-300 focus:ring-indigo-500" />
+                        <% } %>
+                          <label for="sms" class="block ml-3 text-sm font-medium text-gray-700">No</label>
+                </div>
+              </div>
             </div>
-          </div>
 
-          <div class="max-w-xl">
-            <label for="email" class="block mb-2 text-sm font-medium text-gray-700"
-              value=" <%=player.image %>">Image</label>
-            <div class="mt-1">
-              <input name="image" value="<%= player.image%>" type="text" placeholder="URL of image" required
-                class="block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" />
+            <div class="max-w-xl">
+              <label for="club" class="block text-sm font-medium text-gray-700">Club</label>
+              <select name="club"
+                class="block w-full py-2 pl-3 pr-10 mt-1 text-base border-gray-300 rounded-md focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm">
+                <% clubs.forEach(club=> { %>
+                  <option value="<%= club.name %>" <%=JSON.stringify(club.name)===JSON.stringify(player.club)
+                    ? 'selected' : '' %>><%= club.name %>
+                  </option>
+                  <% }) %>
+              </select>
             </div>
+
+            <div class="max-w-xl">
+              <label for="position" class="block text-sm font-medium text-gray-700">Position</label>
+              <select name="position"
+                class="block w-full py-2 pl-3 pr-10 mt-1 text-base border-gray-300 rounded-md focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm">
+                <% positions.forEach(position=> { %>
+                  <option value="<%= position.name %>"
+                    <%=JSON.stringify(position.name)===JSON.stringify(player.position) ? 'selected' : '' %>>
+                    <%=position.name %>
+                  </option>
+                  <% }) %>
+              </select>
+            </div>
+
+            <div class="max-w-xl">
+              <label for="email" class="block mb-2 text-sm font-medium text-gray-700">Goals</label>
+              <div class="mt-1">
+                <input name="goals" type="number" value="<%= player.goals%>" placeholder="e.g. 100" required
+                  class="block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" />
+              </div>
+            </div>
+
+            <div class="max-w-xl">
+              <label for="email" class="block mb-2 text-sm font-medium text-gray-700"
+                value=" <%=player.image %>">Image</label>
+              <div class="mt-1">
+                <input name="image" value="<%= player.image%>" type="text" placeholder="URL of image" required
+                  class="block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" />
+              </div>
+            </div>
+
+            <div class="flex justify-end max-w-xl gap-7">
+              <a href="/"
+                class="inline-flex items-center px-3 py-2 text-sm font-medium leading-4 text-white bg-red-600 border border-transparent rounded-md shadow-sm control hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+                Cancel
+              </a>
+              <button type="submit"
+                class="inline-flex items-center px-3 py-2 text-sm font-medium leading-4 text-white bg-indigo-600 border border-transparent rounded-md shadow-sm control hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+                Update
+              </button>
+
+            </div>
+          </form>
+        </div>
+        <% } else {%>
+          <div class="flex flex-col">
+            <div class="relative mt-5 group">
+              <div class="w-full h-56 overflow-hidden bg-gray-200 rounded-md group-hover:opacity-75 lg:h-72 xl:h-80">
+                <img src="<%=player.image %>" alt="Hand stitched, orange leather long wallet."
+                  class="object-cover object-center w-full h-full" />
+              </div>
+              <h3 class="mt-4 text-xl text-gray-700">
+                <a href="/player/<%=player.id%>">
+                  <span class="absolute inset-0"></span>
+                  <%=player.name %>
+                </a>
+              </h3>
+              <div class="flex items-center gap-2">
+                <label class="mt-1 text-sm font-bold">Club:</label>
+                <p class="mt-1 text-sm text-gray-500">
+                  <%= player.club %>
+                </p>
+              </div>
+              <div class="flex items-center gap-2">
+                <label class="mt-1 text-sm font-bold">Nation:</label>
+                <p class="mt-1 text-sm text-gray-500">
+                  <%= player.nations ? player.nations.name : '' %>
+                </p>
+              </div>
+              <div class="flex items-center gap-2">
+                <label class="mt-1 text-sm font-bold">Position:</label>
+                <p class="mt-1 text-sm text-gray-500">
+                  <%= player.position %>
+                </p>
+              </div>
+              <div class="flex items-center gap-2">
+                <label class="mt-1 text-sm font-bold">Goals:</label>
+                <p class="mt-1 text-sm text-gray-500">
+                  <%= player.goals %>
+                </p>
+              </div>
+              <div class="flex items-center gap-2">
+                <label class="mt-1 text-sm font-bold">Captain:</label>
+                <p class="mt-1 text-sm text-gray-500">
+                  <%= player.isCaptain ? "yes" : "no" %>
+                </p>
+              </div>
+            </div>
+            <% if (isAuth==true && isAdmin===true) { %>
+              <div class="flex gap-2 mt-4">
+                <a href="/player/<%=player.id%>"
+                  class="items-center w-full px-3 py-2 text-sm font-medium leading-4 text-center text-white bg-indigo-600 border border-transparent rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+                  Edit
+                </a>
+                <a href="/delete/<%=player.id%>" onclick="return confirm('Are you sure you want to delete this item?')"
+                  class="items-center w-full px-3 py-2 text-sm font-medium leading-4 text-center text-white bg-red-600 border border-transparent rounded-md shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+                  Delete
+                </a>
+              </div>
+              <% } %>
           </div>
 
-          <div class="flex justify-end max-w-xl gap-7">
-            <a href="/"
-              class="inline-flex items-center px-3 py-2 text-sm font-medium leading-4 text-white bg-red-600 border border-transparent rounded-md shadow-sm control hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
-              Cancel
-            </a>
-            <button type="submit"
-              class="inline-flex items-center px-3 py-2 text-sm font-medium leading-4 text-white bg-indigo-600 border border-transparent rounded-md shadow-sm control hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
-              Update
-            </button>
-
-          </div>
-        </form>
-      </div>
+          <% }%>
     </div>
 
 

@@ -171,7 +171,6 @@ class UserController {
 
   async updatePassword(req, res, next) {
     const { password, confirmPassword, username } = req.body;
-    console.log(username);
     let errors = {};
     if (!password || !confirmPassword) {
       errors.msg = "Please enter all fields";
@@ -203,11 +202,27 @@ class UserController {
         { new: true }
       );
       if (newUser) {
-        res.redirect("/user/me");
+        if (req.session) {
+          req.session.destroy();
+          res.clearCookie("session-id");
+          res.redirect("/");
+        }
       }
     } catch (error) {
       console.log(error);
     }
+  }
+
+  list(req, res, next) {
+    User.find()
+      .then((users) => res.render('userList', { users, title: 'Users' }))
+      .catch(next);
+  }
+
+  getById(req, res, next) {
+    User.findById(req.params.id)
+      .then((user) => res.render('userDetail', { user, title: 'User' }))
+      .catch(next);
   }
 }
 module.exports = new UserController();

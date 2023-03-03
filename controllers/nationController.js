@@ -1,4 +1,5 @@
 const Nations = require("../models/nation");
+const Players = require("../models/player");
 class nationController {
   index(req, res, next) {
     Nations.find({})
@@ -27,7 +28,7 @@ class nationController {
     nation
       .save()
       .then(() => res.redirect("/nations"))
-      .catch((error) => {});
+      .catch((error) => { });
   }
 
   update(req, res, next) {
@@ -40,7 +41,13 @@ class nationController {
     });
   }
 
-  delete(req, res, next) {
+  async delete(req, res, next) {
+    const players = await Players.find().populate("nations").find({ nations: req.params.id });
+    if (players.length > 0) {
+      console.log(players)
+      res.redirect("/nations");
+      return;
+    }
     Nations.findByIdAndRemove(req.params.id, function (err, nation) {
       if (err) throw err;
       console.log("Success");
